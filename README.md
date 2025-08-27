@@ -1,58 +1,149 @@
-# 🧠 Assignment: Interactive Web Pages with JavaScript
+project/
+│── index.html
+│── style.css
+│── script.js
 
-Welcome to the exciting world of interactivity! This assignment is all about **making your web pages feel alive**. You’ll learn how to respond to user actions, build engaging components, and validate form input—without reloading the page. This is where JavaScript gets fun, practical, and powerful. 🚀
 
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Web Page</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Interactive Web Page</h1>
 
-## 🎉 Part 1: JavaScript Event Handling and Interactive Elements
+  <!-- Interactive Section 1: Form -->
+  <section>
+    <h2>Sign Up Form</h2>
+    <form id="signupForm">
+      <label for="username">Username:</label>
+      <input type="text" id="username" placeholder="Enter username"><br><br>
 
-Let’s start with the basics of **event handling**. You'll set up JavaScript to listen for user actions like clicks, mouseovers, keyboard input, and more—and respond to them in meaningful ways.
+      <label for="email">Email:</label>
+      <input type="text" id="email" placeholder="Enter email"><br><br>
 
-**Goal:** Use event listeners to react to user behavior and trigger changes on the page (e.g., showing messages, toggling classes, hiding/showing content).
+      <label for="password">Password:</label>
+      <input type="password" id="password" placeholder="Enter password"><br><br>
 
----
+      <button type="submit">Submit</button>
+    </form>
+    <p id="formMessage"></p>
+  </section>
 
-## 🎮 Part 2: Building Interactive Elements
+  <!-- Interactive Section 2: Button-triggered greeting -->
+  <section>
+    <h2>Greeting Section</h2>
+    <button id="greetBtn">Say Hello</button>
+    <p id="greetOutput"></p>
+  </section>
 
-Now it’s time to apply what you’ve learned by creating your own mini interactive features. You can build things like:
+  <!-- Interactive Section 3: Color changer -->
+  <section>
+    <h2>Background Color Changer</h2>
+    <button id="colorBtn">Change Background</button>
+  </section>
 
-* A light/dark mode toggle
-* A counter or button game
-* A collapsible FAQ section
-* A simple dropdown menu
-* A tabbed interface
+  <script src="script.js"></script>
+</body>
+</html>
 
-**Goal:** Use DOM manipulation + events to make the page dynamic and engaging. Be creative!
 
----
+body {
+  font-family: Arial, sans-serif;
+  margin: 30px;
+  background-color: #f9f9f9;
+  color: #333;
+}
 
-## 📋✅ Part 3: Form Validation with JavaScript
+h1, h2 {
+  color: #2c3e50;
+}
 
-Forms are essential to the web—and validating them properly is key to good user experience. You’ll build a form with multiple input fields (name, email, password, etc.) and write JavaScript to validate each field when the user submits or types.
+form {
+  margin: 15px 0;
+  padding: 15px;
+  background: #eef;
+  border-radius: 8px;
+  width: 300px;
+}
 
-**Goal:** Prevent incorrect form submissions by writing custom validation logic using conditions and regular expressions. Show user-friendly error messages and success feedback.
+input {
+  width: 90%;
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 
----
+button {
+  margin-top: 10px;
+  padding: 8px 15px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
 
-## Deliverables
+button:hover {
+  background: #45a049;
+}
 
-* `index.html`: Your structured web page with at least one form and several interactive sections
-* `script.js`: Your JavaScript file with:
+#formMessage {
+  margin-top: 10px;
+  font-weight: bold;
+}
 
-  * Event handling for buttons, inputs, or links
-  * At least 2 interactive features created from scratch
-  * A fully functioning custom form validation (no HTML5-only validation)
-* `style.css` (optional but encouraged): To style your interactive elements
 
-Each section of your JavaScript should be commented to explain its purpose.
+// =============================
+// Event Handling + Interactive Features
+// =============================
 
----
+// Feature 1: Greeting button
+document.getElementById("greetBtn").addEventListener("click", function() {
+  document.getElementById("greetOutput").innerText = "Hello there! 👋 Welcome to the site.";
+});
 
-## Outcome
+// Feature 2: Background color changer
+document.getElementById("colorBtn").addEventListener("click", function() {
+  let colors = ["lightblue", "lightgreen", "lightyellow", "lavender", "#f9f9f9"];
+  let currentColor = document.body.style.backgroundColor;
+  let newColor = colors[Math.floor(Math.random() * colors.length)];
+  while (newColor === currentColor) {
+    newColor = colors[Math.floor(Math.random() * colors.length)];
+  }
+  document.body.style.backgroundColor = newColor;
+});
 
-* Use of event listeners and appropriate event types
-* Creativity and functionality of interactive elements
-* Form validation accuracy and helpfulness of feedback
-* Clear, modular, and well-commented JavaScript code
-* A clean and functional user experience
+// =============================
+// Custom Form Validation
+// =============================
+document.getElementById("signupForm").addEventListener("submit", function(e) {
+  e.preventDefault(); // Stop form submission
 
+  let username = document.getElementById("username").value.trim();
+  let email = document.getElementById("email").value.trim();
+  let password = document.getElementById("password").value.trim();
+  let message = "";
+
+  // Username validation
+  if (username.length < 3) {
+    message = "❌ Username must be at least 3 characters.";
+  }
+  // Email validation (basic regex)
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    message = "❌ Please enter a valid email address.";
+  }
+  // Password validation
+  else if (password.length < 6) {
+    message = "❌ Password must be at least 6 characters.";
+  } 
+  else {
+    message = "✅ Form submitted successfully! Welcome, " + username + "!";
+  }
+
+  document.getElementById("formMessage").innerText = message;
+});
